@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userService" class="com.whling.small.springframework.test.beans.UserService">
+        <property name="serviceName" value="junitTestUserService"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="userDao" class="com.whling.small.springframework.test.beans.UserDao"/>
+
+</beans>
