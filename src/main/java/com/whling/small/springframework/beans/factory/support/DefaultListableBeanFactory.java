@@ -8,7 +8,7 @@ import java.util.HashMap;
 /**
  * @author whling
  */
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacotry implements BeanDefinitionRegistry {
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
 
     private HashMap<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 

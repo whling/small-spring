@@ -12,7 +12,7 @@ import java.lang.reflect.Constructor;
 /**
  * @author whling
  */
-public abstract class AbstractAutowireCapableBeanFacotry extends AbstractBeanFactory {
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
