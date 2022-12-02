@@ -13,6 +13,7 @@ public class PropertyValues {
     private final List<PropertyValue> propertyValues = new ArrayList<>();
 
     public void addPropertyValue(PropertyValue propertyValue) {
+        removePropertyValue(propertyValue.getName());
         propertyValues.add(propertyValue);
     }
 
@@ -25,5 +26,9 @@ public class PropertyValues {
                 .stream()
                 .filter(pv -> Objects.equals(pv.getName(), name))
                 .findFirst();
+    }
+
+    public synchronized void removePropertyValue(String name) {
+        propertyValues.removeIf(propertyValue -> Objects.equals(propertyValue.getName(), name));
     }
 }

@@ -51,11 +51,16 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
     @Override
     public void loadBeanDefinitions(Resource... resources) throws BeansException {
-        Arrays.stream(resources).forEach(this::loadBeanDefinitions);
+        if (resources != null && resources.length > 0) {
+            Arrays.stream(resources).forEach(this::loadBeanDefinitions);
+        }
     }
 
     @Override
     public void loadBeanDefinitions(String... locations) {
+        if (locations == null || locations.length <= 0) {
+            return;
+        }
         ResourceLoader resourceLoader = getResourceLoader();
         Resource[] resources = Arrays.stream(locations)
                 .map(resourceLoader::getResource)

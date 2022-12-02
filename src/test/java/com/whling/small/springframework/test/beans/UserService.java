@@ -11,6 +11,14 @@ public class UserService {
 
     public String queryUserName(String userName) {
         return userDao.queryUserDescByName(userName)
-                .orElse("userService Name is" + serviceName);
+                .orElse(serviceName);
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }

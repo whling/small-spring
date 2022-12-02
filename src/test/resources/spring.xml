@@ -8,4 +8,8 @@
 
     <bean id="userDao" class="com.whling.small.springframework.test.beans.UserDao"/>
 
+    <bean id="userServiceBeanPostProcessor" class="com.whling.small.springframework.test.beans.UserServiceBeanPostProcessor"/>
+
+    <bean id="appBeanFactoryPostProcessor" class="com.whling.small.springframework.test.beans.AppBeanFactoryPostProcessor"/>
+
 </beans>

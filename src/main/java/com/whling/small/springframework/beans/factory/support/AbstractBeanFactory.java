@@ -1,13 +1,19 @@
 package com.whling.small.springframework.beans.factory.support;
 
 import com.whling.small.springframework.beans.BeansException;
-import com.whling.small.springframework.beans.factory.BeanFatory;
+import com.whling.small.springframework.beans.factory.ConfigurableBeanFactory;
 import com.whling.small.springframework.beans.factory.config.BeanDefinition;
+import com.whling.small.springframework.beans.factory.config.BeanPostProcessor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author whling
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFatory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     @Override
     public Object getBean(String beanName) throws BeansException {
@@ -22,6 +28,16 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     @Override
     public <T> T getBean(String beanName, Class<T> requiredType) {
         return (T) getBean(beanName);
+    }
+
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        beanPostProcessors.add(beanPostProcessor);
+    }
+
+    @Override
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return beanPostProcessors;
     }
 
     private Object doGetBean(String beanName, Object... args) {

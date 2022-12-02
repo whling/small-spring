@@ -3,6 +3,7 @@ package com.whling.small.springframework.test;
 
 import com.whling.small.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.whling.small.springframework.beans.factory.support.XmlBeanDefinitionReader;
+import com.whling.small.springframework.context.support.ClasspathXmlApplicationContext;
 import com.whling.small.springframework.test.beans.UserService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,8 +22,23 @@ public class AppTest {
 
         UserService userService = beanFactory.getBean("userService", UserService.class);
 
-        String ret = userService.queryUserName("h2");
-        Assert.assertEquals("world2", ret);
+        String ret1 = userService.queryUserName("h2");
+        Assert.assertEquals("world2", ret1);
 
+    }
+
+    @Test
+    public void testClassPathXmlApplicationContext() {
+        ClasspathXmlApplicationContext applicationContext = new ClasspathXmlApplicationContext("classpath:spring.xml");
+
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+
+        String ret1 = userService.queryUserName("h2");
+        Assert.assertEquals("world2", ret1);
+
+        String ret2 = userService.queryUserName("b");
+        System.out.println(ret2);
+        Assert.assertNotEquals("junitTestUserService", ret2);
+        Assert.assertEquals("junitTestUserService.BeanFactoryPostProcessor", ret2);
     }
 }
