@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-    <bean id="userService" class="com.whling.small.springframework.test.beans.UserService">
+    <bean id="userService"
+          class="com.whling.small.springframework.test.beans.UserService">
         <property name="serviceName" value="junitTestUserService"/>
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean id="userDao" class="com.whling.small.springframework.test.beans.UserDao"/>
+    <bean id="userDao" class="com.whling.small.springframework.test.beans.UserDao"
+          init-method="init" destroy-method="close"/>
 
-    <bean id="userServiceBeanPostProcessor" class="com.whling.small.springframework.test.beans.UserServiceBeanPostProcessor"/>
+    <bean id="userServiceBeanPostProcessor"
+          class="com.whling.small.springframework.test.beans.UserServiceBeanPostProcessor"/>
 
-    <bean id="appBeanFactoryPostProcessor" class="com.whling.small.springframework.test.beans.AppBeanFactoryPostProcessor"/>
+    <bean id="appBeanFactoryPostProcessor"
+          class="com.whling.small.springframework.test.beans.AppBeanFactoryPostProcessor"/>
 
 </beans>

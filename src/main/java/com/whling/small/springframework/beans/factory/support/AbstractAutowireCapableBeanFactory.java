@@ -1,8 +1,11 @@
 package com.whling.small.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.whling.small.springframework.beans.BeansException;
 import com.whling.small.springframework.beans.factory.AutowireCapableBeanFactory;
+import com.whling.small.springframework.beans.factory.DisposableBean;
+import com.whling.small.springframework.beans.factory.InitializingBean;
 import com.whling.small.springframework.beans.factory.config.BeanDefinition;
 import com.whling.small.springframework.beans.factory.config.BeanPostProcessor;
 import com.whling.small.springframework.beans.factory.config.BeanReference;
@@ -10,6 +13,9 @@ import com.whling.small.springframework.beans.factory.config.PropertyValue;
 import com.whling.small.springframework.beans.factory.config.PropertyValues;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
+import static com.whling.small.springframework.beans.factory.InitializingBean.METHOD_NAME;
 
 /**
  * @author whling
@@ -29,8 +35,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         } catch (Exception e) {
             throw new BeansException(String.format("Instantiation of beans failed, beanName is [%s]", beanName), e);
         }
+
+        registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+
         super.registerSingleton(beanName, bean);
         return bean;
+    }
+
+    private void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof DisposableBean ||
+                StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+            registerDisposableBean(beanName,
+                    new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
+        }
     }
 
     private Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {
@@ -70,14 +87,31 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
-        invokeInitMethods(beanName, wrappedBean, beanDefinition);
+        try {
+            invokeInitMethods(beanName, wrappedBean, beanDefinition);
+        } catch (Exception e) {
+            throw new BeansException("Invocation of init method of bean [" + beanName + "] failed", e);
+        }
 
         wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 
         return wrappedBean;
     }
 
-    private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
+    private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+        if (bean instanceof InitializingBean) {
+            ((InitializingBean) bean).afterPropertiesSet();
+        }
+
+        // init-methods
+        String initMethodName = beanDefinition.getInitMethodName();
+        if (StrUtil.isNotEmpty(initMethodName) && !StrUtil.equals(METHOD_NAME, initMethodName)) {
+            Method method = beanDefinition.getBeanClass().getMethod(initMethodName);
+            if (method == null) {
+                throw new BeansException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
+            }
+            method.invoke(bean);
+        }
 
     }
 
