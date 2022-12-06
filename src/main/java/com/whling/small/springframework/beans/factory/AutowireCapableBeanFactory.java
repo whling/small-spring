@@ -5,7 +5,7 @@ import com.whling.small.springframework.beans.BeansException;
 /**
  * @author whling
  */
-public interface AutowireCapableBeanFactory extends BeanFatory {
+public interface AutowireCapableBeanFactory extends BeanFactory {
 
     Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException;
 

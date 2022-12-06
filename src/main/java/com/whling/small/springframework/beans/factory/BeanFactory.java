@@ -5,7 +5,7 @@ import com.whling.small.springframework.beans.BeansException;
 /**
  * @author whling
  */
-public interface BeanFatory {
+public interface BeanFactory {
 
     Object getBean(String beanName) throws BeansException;
 

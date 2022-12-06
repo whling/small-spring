@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * @author whling
  */
-public interface ListableBeanFactory extends BeanFatory {
+public interface ListableBeanFactory extends BeanFactory {
 
     String[] getBeanDefinitionNames();
 
