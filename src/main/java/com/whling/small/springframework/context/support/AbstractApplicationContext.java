@@ -4,6 +4,7 @@ import com.whling.small.springframework.beans.BeansException;
 import com.whling.small.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.whling.small.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import com.whling.small.springframework.beans.factory.config.BeanPostProcessor;
+import com.whling.small.springframework.context.ApplicationContextAwareProcessor;
 import com.whling.small.springframework.context.ConfigurableApplicationContext;
 import com.whling.small.springframework.core.io.DefaultResourceLoader;
 
@@ -17,7 +18,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     @Override
     public void refresh() throws BeansException {
         refreshBeanFactory();
+
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+
+        // add ApplicationContextAwareProcessor before invoke BeanFactoryPostProcessor thus bean can both implement
+        beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 
         invokeBeanFactoryPostProcessors(beanFactory);
 

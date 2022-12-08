@@ -16,7 +16,7 @@ public class UserDao {
     }
 
     public void init() {
-        System.out.println("init UserDao");
+        System.out.println("4. init UserDao");
         userMap = new HashMap<>();
         userMap.put("h1", "world1");
         userMap.put("h2", "world2");
@@ -24,7 +24,7 @@ public class UserDao {
     }
 
     public void close() {
-        System.out.println("close UserDao");
+        System.out.println("12. close UserDao");
         userMap.clear();
     }
 

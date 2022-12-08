@@ -37,7 +37,6 @@ public class AppTest {
         Assert.assertEquals("world2", ret1);
 
         String ret2 = userService.queryUserName("b");
-        System.out.println(ret2);
         Assert.assertNotEquals("junitTestUserService", ret2);
         Assert.assertEquals("junitTestUserService.BeanFactoryPostProcessor", ret2);
     }
