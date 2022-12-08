@@ -2,7 +2,7 @@ package com.whling.small.springframework.beans.factory.support;
 
 import com.whling.small.springframework.beans.BeansException;
 import com.whling.small.springframework.beans.factory.DisposableBean;
-import com.whling.small.springframework.beans.factory.config.SingletonBeanRegistry;
+import com.whling.small.springframework.beans.factory.SingletonBeanRegistry;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,6 +1,4 @@
-package com.whling.small.springframework.beans.factory.config;
-
-import com.whling.small.springframework.beans.factory.DisposableBean;
+package com.whling.small.springframework.beans.factory;
 
 /**
  * @author whling
