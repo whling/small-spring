@@ -4,7 +4,7 @@
     <bean id="userService"
           class="com.whling.small.springframework.test.beans.UserService">
         <property name="serviceName" value="junitTestUserService"/>
-        <property name="userDao" ref="userDao"/>
+        <property name="userDao" ref="proxyUserDao"/>
     </bean>
 
     <bean id="userDao" class="com.whling.small.springframework.test.beans.UserDao"
@@ -15,5 +15,10 @@
 
     <bean id="appBeanFactoryPostProcessor"
           class="com.whling.small.springframework.test.beans.AppBeanFactoryPostProcessor"/>
+
+    <bean id="proxyUserDao"
+          class="com.whling.small.springframework.test.beans.ProxyUserDaoFactoryBean" >
+        <property name="realUserDao" ref="userDao"/>
+    </bean>
 
 </beans>

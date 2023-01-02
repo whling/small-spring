@@ -7,7 +7,7 @@ import java.util.Optional;
 /**
  * @author whling
  */
-public class UserDao {
+public class UserDao implements IUserDao {
 
     private Map<String, String> userMap;
 
@@ -28,6 +28,7 @@ public class UserDao {
         userMap.clear();
     }
 
+    @Override
     public Optional<String> queryUserDescByName(String userName) {
         return Optional.ofNullable(userMap.get(userName));
     }

@@ -2,6 +2,7 @@ package com.whling.small.springframework.beans.factory.support;
 
 import com.whling.small.springframework.beans.BeansException;
 import com.whling.small.springframework.beans.factory.ConfigurableBeanFactory;
+import com.whling.small.springframework.beans.factory.FactoryBean;
 import com.whling.small.springframework.beans.factory.config.BeanDefinition;
 import com.whling.small.springframework.beans.factory.config.BeanPostProcessor;
 import com.whling.small.springframework.utils.ClassUtils;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * @author whling
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory {
 
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
@@ -50,10 +51,23 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     private Object doGetBean(String beanName, Object... args) {
         Object bean = getSingleton(beanName);
         if (bean != null) {
-            return bean;
+            return getObjectForBeanInstance(bean, beanName);
         }
         BeanDefinition beanDefinition = getBeanDefinition(beanName);
-        return createBean(beanName, beanDefinition, args);
+        Object instanceBean = createBean(beanName, beanDefinition, args);
+        return getObjectForBeanInstance(instanceBean, beanName);
+    }
+
+    private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        if (!(beanInstance instanceof FactoryBean)) {
+            return beanInstance;
+        }
+
+        Object obj = getCachedObjectForFactoryBean(beanName);
+        if (obj == null) {
+            obj = getObjectForFactoryBean(((FactoryBean) beanInstance), beanName);
+        }
+        return obj;
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName);

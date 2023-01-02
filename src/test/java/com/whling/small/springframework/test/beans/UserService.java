@@ -24,7 +24,7 @@ public class UserService
 
     private String serviceName;
 
-    private UserDao userDao;
+    private IUserDao userDao;
 
     public String queryUserName(String userName) {
         return userDao.queryUserDescByName(userName)
@@ -35,7 +35,7 @@ public class UserService
         this.serviceName = serviceName;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(IUserDao userDao) {
         this.userDao = userDao;
     }
 

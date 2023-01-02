@@ -39,5 +39,10 @@ public class AppTest {
         String ret2 = userService.queryUserName("b");
         Assert.assertNotEquals("junitTestUserService", ret2);
         Assert.assertEquals("junitTestUserService.BeanFactoryPostProcessor", ret2);
+
+//        Object proxyUserDao = applicationContext.getBean("proxyUserDao");
+//
+//        boolean b = proxyUserDao instanceof FactoryBean;
+//        System.out.println(b);
     }
 }
